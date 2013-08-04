@@ -1,7 +1,16 @@
 <?php
+require_once '../Mobile_Detect.php';
+$detect = new Mobile_Detect;
+$location = "http://jd.bukkit.org/beta/apidocs/";
+if ( !$detect->isMobile() ) {
+  $location .= "?";
+}
 if ($_GET) {
-header('Location: http://jd.bukkit.org/beta/apidocs/?org/bukkit/'.$_SERVER['QUERY_STRING']);
+ if ( substr($_SERVER['QUERY_STRING'], 0, 11) != "org/bukkit/" ) {
+  $location = $location."org/bukkit/";
+ }
+ header('Location: '.$location.$_SERVER['QUERY_STRING']);
 } else {
-header('Location: http://jd.bukkit.org/beta/apidocs/');
+header('Location: '.$location);
 }
 ?>
